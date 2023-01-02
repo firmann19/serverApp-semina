@@ -2,7 +2,7 @@
 const Categories = require("../../api/v1/categories/model");
 
 // import costum error not found dan bad request
-const { NotFoundError, BadRequestError} = require("../../errors");
+const { NotFoundError, BadRequestError } = require("../../errors");
 
 const getAllCategories = async () => {
   const result = await Categories.find();
@@ -17,7 +17,7 @@ const createCategories = async (req) => {
   const check = await Categories.findOne({ name });
 
   // apabila check true / data categories sudah ada
-   if (check) throw new BadRequestError("kategori nama duplikat");
+  if (check) throw new BadRequestError("kategori nama duplikat");
 
   const result = await Categories.create({ name });
 
@@ -73,10 +73,29 @@ const deleteCategories = async (req) => {
   return result;
 };
 
+const checkingCategories = async (id) => {
+  const result = await Categories.findOne({ _id: id });
+
+  if (!result) throw new NotFoundError(`Tidak ada Kategori dengan id :  ${id}`);
+
+  return result;
+};
+
+const checkingTalents = async (id) => {
+  const result = await Talents.findOne({ _id: id });
+
+  if (!result)
+    throw new NotFoundError(`Tidak ada pembicara dengan id :  ${id}`);
+
+  return result;
+};
+
 module.exports = {
   getAllCategories,
   createCategories,
   getOneCategories,
   updateCategories,
   deleteCategories,
+  checkingCategories,
+  checkingTalents
 };

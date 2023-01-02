@@ -8,7 +8,8 @@ var app = express();
 // import router categories
 const categoriesRouter = require("./app/api/v1/categories/router");
 const imagesRouter = require("./app/api/v1/images/router");
-
+const talentsRouter = require("./app/api/v1/talents/router");
+const eventsRouter = require("./app/api/v1/events/router");
 
 // middlewares
 const notFoundMiddleware = require("./app/middlewares/not-found");
@@ -32,6 +33,8 @@ app.get("/", (req, res) => {
 // gunakan categories router
 app.use(v1, categoriesRouter);
 app.use(v1, imagesRouter);
+app.use(v1, talentsRouter);
+app.use(v1, eventsRouter);
 
 // middlewares
 app.use(notFoundMiddleware);
