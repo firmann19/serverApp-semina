@@ -72,6 +72,10 @@ const EventSchema = new mongoose.Schema(
             type: mongoose.Types.ObjectId,
             ref: 'Talent',
             required: true,
+          },
+          organizer: {
+            type: String,
+            required: [true, "Penyelenggara harus diisi"],
           },      
     },
     { timestamps: true }

@@ -10,6 +10,7 @@ const {
 const create = async (req, res, next) => {
   try {
     const result = await createCategories(req);
+    console.log(result)
 
     res.status(StatusCodes.CREATED).json({
       data: result,
