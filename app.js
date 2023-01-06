@@ -13,14 +13,15 @@ const eventsRouter = require("./app/api/v1/events/router");
 const organizersRouter = require("./app/api/v1/organizers/router");
 const authCMSRouter = require("./app/api/v1/auth/router");
 const ordersRouter = require("./app/api/v1/orders/router");
-const participantsRouter = require('./app/api/v1/participants/router');
+const participantsRouter = require("./app/api/v1/participants/router");
+const paymentsRouter = require("./app/api/v1/payments/router");
 
 // middlewares
 const notFoundMiddleware = require("./app/middlewares/not-found");
 const handleErrorMiddleware = require("./app/middlewares/handler-error");
 
 // membuat variabel v1
-const v1 = '/api/v1';
+const v1 = "/api/v1";
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -42,6 +43,7 @@ app.use(`${v1}/cms`, eventsRouter);
 app.use(`${v1}/cms`, organizersRouter);
 app.use(`${v1}/cms`, authCMSRouter);
 app.use(`${v1}/cms`, ordersRouter);
+app.use(`${v1}/cms`, paymentsRouter);
 app.use(`${v1}`, participantsRouter);
 
 // middlewares
