@@ -74,9 +74,10 @@ const EventSchema = new mongoose.Schema(
             required: true,
           },
           organizer: {
-            type: String,
-            required: [true, "Penyelenggara harus diisi"],
-          },      
+            type: mongoose.Types.ObjectId,
+            ref: "Organizer",
+            required: true,
+          },   
     },
     { timestamps: true }
 )
