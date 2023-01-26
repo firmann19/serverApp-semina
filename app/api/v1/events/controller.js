@@ -4,6 +4,7 @@ const {
   updateEvents,
   createEvents,
   deleteEvents,
+  changeStatusEvents
 } = require("../../../services/mongoose/events");
 
 const { StatusCodes } = require("http-status-codes");

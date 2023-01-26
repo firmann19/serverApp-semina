@@ -8,6 +8,7 @@ const {
   getDetailLandingPage,
   checkout,
   getAllPayment,
+  getDashoard
 } = require("./controller");
 
 const { authenticateParticipant } = require("../../../middlewares/auth");
@@ -18,6 +19,7 @@ router.put("/active", activeParticipant);
 router.get("/events", getAllLandingPage);
 router.get("/events/:id", getDetailLandingPage);
 router.get("/payments/:organizer", authenticateParticipant, getAllPayment);
+router.get('/orders', authenticateParticipant, getDashoard);
 router.post("/checkout", authenticateParticipant, checkout);
 
 module.exports = router;

@@ -113,6 +113,7 @@ module.exports = {
   signin,
   getAllLandingPage,
   getDetailLandingPage,
+  getDashoard,
   getAllPayment,
-  checkout
+  checkout,
 };
