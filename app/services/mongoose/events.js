@@ -9,7 +9,7 @@ const { NotFoundError, BadRequestError } = require("../../errors");
 
 const getAllEvents = async (req) => {
   // Membuat request query berdasarkan (keyword, category, talent)
-  const { keyword, category, talent } = req.query;
+  const { keyword, category, talent, status } = req.query;
 
   // Menampung objek berupa organizer yang sedang login
   let condition = { organizer: req.user.organizer };
@@ -28,6 +28,14 @@ const getAllEvents = async (req) => {
   /* Melakukan checking terhadap talent, apabila talent ada maka akan mengumpulkan semua objek yang ada di condition */
   if (talent) {
     condition = { ...condition, talent: talent };
+  }
+
+  /* Melakukan checking terhadap status event, harus publish atau draft */
+  if (['Draft', 'Published'].includes(status)) {
+    condition = {
+      ...condition,
+      statusEvent: status,
+    };
   }
 
   // Melihat seluruh collection event dengan cara populate image, category, talent
