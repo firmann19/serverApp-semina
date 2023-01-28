@@ -148,38 +148,58 @@ const getAllOrders = async (req) => {
 };
 
 const checkoutOrder = async (req) => {
+  // Membuat request body (event, personalDetail, payment, tickets)
   const { event, personalDetail, payment, tickets } = req.body;
 
+  // Melakukan check berdasarkan id pada event
   const checkingEvent = await Events.findOne({ _id: event });
+
+  // Jika hasil check tidak ada id pada event yang dicari, maka menampilkan msg "Tidak ada acara dengan id : " + event
   if (!checkingEvent) {
     throw new NotFoundError("Tidak ada acara dengan id : " + event);
   }
 
+  // Melakukan check berdasarkan id pada payment
   const checkingPayment = await Payments.findOne({ _id: payment });
 
+  // Jika hasil check tidak ada id pada payment yang dicari, maka menampilkan msg "Tidak ada metode pembayaran dengan id :" + payment 
   if (!checkingPayment) {
     throw new NotFoundError(
       "Tidak ada metode pembayaran dengan id :" + payment
     );
   }
 
+  // Menampung total payment dengan variable totalPay
   let totalPay = 0,
+
+    // Menampung total ticket yang telah di order dengan variable totalOrderTicket  
     totalOrderTicket = 0;
+
+  // 
   await tickets.forEach((tic) => {
+    // Melakukan check tiket dalam bentuk array berdasarkan model schema tickets
     checkingEvent.tickets.forEach((ticket) => {
+      // Melakukan check untuk ticketCategories apakah sama dengan type ticket
       if (tic.ticketCategories.type === ticket.type) {
+        // Jika sama, lanjut check selanjutnya yaitu sumTicket apakah lebih besar dari stock ticket
         if (tic.sumTicket > ticket.stock) {
+          // Jika sumTicket lebih kecil dari stock ticket, maka akan menampilkan msg "Stock event tidak mencukupi"
           throw new NotFoundError("Stock event tidak mencukupi");
         } else {
+          // Jika sumTicket lebih besar dari stock ticket, maka stock tiket akan berkurang
           ticket.stock -= tic.sumTicket;
 
+          // TotalOrderTicket dihasilkan dari penambahan sumTicket
           totalOrderTicket += tic.sumTicket;
+
+          // TotalPay dihasilkan dari harga tiket kategori dikalikan sumTicket
           totalPay += tic.ticketCategories.price * tic.sumTicket;
         }
       }
     });
   });
 
+  // Setelah checking event ticket berhasil, maka datanya akan disimpan
   await checkingEvent.save();
 
   const historyEvent = {

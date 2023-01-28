@@ -153,7 +153,7 @@ const updateEvents = async (req) => {
   const check = await Events.findOne({
     title,
     organizer: req.user.organizer,
-    _id: { $ne: id },
+    _id: { $ne: id }, //$ne mencari semua collection pada events kecuali id yang dipanggil
   });
 
   // apa bila check true / data Events sudah ada maka kita tampilkan error bad request dengan message pembicara duplikat
