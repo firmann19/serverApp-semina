@@ -2,6 +2,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const cors = require('cors');
 
 var app = express();
 
@@ -17,13 +18,14 @@ const participantsRouter = require("./app/api/v1/participants/router");
 const paymentsRouter = require("./app/api/v1/payments/router");
 const userRefreshTokenRouter = require("./app/api/v1/userRefreshToken/router");
 
+// membuat variabel v1
+const v1 = "/api/v1";
+
 // middlewares
 const notFoundMiddleware = require("./app/middlewares/not-found");
 const handleErrorMiddleware = require("./app/middlewares/handler-error");
 
-// membuat variabel v1
-const v1 = "/api/v1";
-
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
